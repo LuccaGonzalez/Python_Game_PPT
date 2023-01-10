@@ -91,54 +91,37 @@ def jogar(i):
     global pontosPC
 
 
-    if rodadas < 6:
+    if rodadas <= 5:
         print(rodadas)
         opcoes = ['Pedra', 'Papel', 'Tesoura']
         pc = random.choice(opcoes)
         player1 = i
 
-        # Caso 1 (Player = Pedra)
-        if player1 == 'Pedra':
-            
-            if pc == 'Tesoura':
-                print('Vitória')
-                app1_linha_le['bg'] = co8 #led "player 1" fica verde
-            elif pc == 'Pedra':
-                print('Empate')
-                app_linha_inf['bg'] = co3 #led inferior fica laranja
-            else:
-                print('Derrota')
-                app2_linha_ld['bg'] = co8 #led "pc" fica verde
+        for a in opcoes:
+            # Caso 1 (Player = Pedra)
+            if player1 == a:
+                
+                if pc == 'Tesoura':
+                    print('Você Ganhou')
+                    app1_linha_le['bg'] = co8 #led "player 1" fica verde
+                    app2_linha_ld['bg'] = co0
+                    app_linha_inf['bg'] = co0
+                elif pc == 'Pedra':
+                    print('Empate')
+                    app_linha_inf['bg'] = co2 #led inferior fica laranja
+                    app1_linha_le['bg'] = co0
+                    app2_linha_ld['bg'] = co0
+                else:
+                    print('Você Perdeu')
+                    app2_linha_ld['bg'] = co8 #led "pc" fica verde
+                    app1_linha_le['bg'] = co0
+                    app_linha_inf['bg'] = co0
 
-        # Caso 2 (Player = Papel)
-        elif player1 == 'Papel':
+        rodadas = rodadas + 1
 
-            if pc == 'Tesoura':
-                print('Derrota')
-                app2_linha_ld['bg'] = co8 #led "pc" fica verde
-            elif pc == 'Pedra':
-                print('Vitória')
-                app1_linha_le['bg'] = co8 #led "player 1" fica verde
-            else:
-                print('Empate')
-                app_linha_inf['bg'] = co3 #led inferior fica laranja
-
-        # Caso 3 (Player = Tesoura)
-        else:
-
-            if pc == 'Tesoura':
-                print('Empate')
-                app_linha_inf['bg'] = co3 #led inferior fica laranja
-            elif pc == 'Pedra':
-                print('Derrota')
-                app2_linha_ld['bg'] = co8 #led "pc" fica verde
-            else:
-                print('Vitória')
-                app1_linha_le['bg'] = co8 #led "player 1" fica verde
-
-
-    else:
-        fimDoJogo()
+        if rodadas == 6:
+            print('Fim do jogo!')
+            #fimDoJogo()
 
 
 # Função iniciar o jogo
@@ -170,6 +153,7 @@ def iniciarJogo():
 # Função Terminar o jogo
 def fimDoJogo():
     pass
+    
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
