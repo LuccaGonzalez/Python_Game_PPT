@@ -7,15 +7,16 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 
 # cores -----------------------------------
-co0 = "#FFFFFF"     # white
-co1 = "#333333"     # branca
-co2 = "#fcc058"     # orange
+co0 = "#FFFFFF"     # branco
+co1 = "#333333"     # cinza escuro
+co2 = "#fcc058"     # laranja
 co3 = "#38576b"     # valor
-co4 = "#3297a8"      # blue
-co5 = "#fff873"      # yellow
-co6 = "#fcc058"     # orange
+co4 = "#3297a8"      # azul
+co5 = "#fff873"      # amarelo
+co6 = "#fcc058"     # laranja
 co7 = "#e85151"      # vermelha
-co8 = "#34eb3d"      # + verde
+co8 = "#34eb3d"      # verde
+co9 = "#edebeb"     # cinza claro
 fundo = "#3b3b3b"
 # ------------------------------------------
 
@@ -67,7 +68,7 @@ app2_pontos.place(x=375, y=50)
 
 
 
-app_linha_inf = Label(frameCima, text="", width=70, anchor='center', font=('Ivy 10 bold'), bg=co0, fg=co0) # "Led" inferior, para...
+app_linha_inf = Label(frameCima, text="", width=70, anchor='center', font=('Ivy 10 bold'), bg=co0, fg=co0) # "Led" inferior, para indicar empate
 app_linha_inf.place(x=0, y=195)
 
 
@@ -82,7 +83,7 @@ global pontosPC
 
 pontosPlayer1 = 0
 pontosPC = 0
-rodadas = 5
+rodadas = 1
 
 # Função lógica do jogo
 def jogar(i):
@@ -91,17 +92,55 @@ def jogar(i):
     global pontosPC
 
 
-
-    if rodadas > 0:
+    if rodadas <= 5:
         print(rodadas)
         opcoes = ['Pedra', 'Papel', 'Tesoura']
         pc = random.choice(opcoes)
         player1 = i
 
-        print(player1, pc)
+        # Loop para verificar todas as opções de resultados
+        for a in opcoes:
+            
+            if player1 == a:
+                
+                if pc == 'Tesoura':
+                    print('Você Ganhou')
+                    app1_linha_le['bg'] = co8 #led "player 1" fica verde
+                    app2_linha_ld['bg'] = co0
+                    app_linha_inf['bg'] = co0
 
-    else:
-        fimDoJogo()
+                    pontosPlayer1 += 1
+                    app1_pontos['text'] = pontosPlayer1
+
+                elif pc == 'Pedra':
+                    print('Empate')
+                    app_linha_inf['bg'] = co2 #led inferior fica laranja
+                    app1_linha_le['bg'] = co0
+                    app2_linha_ld['bg'] = co0
+
+                else:
+                    print('Você Perdeu')
+                    app2_linha_ld['bg'] = co8 #led "pc" fica verde
+                    app1_linha_le['bg'] = co0
+                    app_linha_inf['bg'] = co0
+
+                    pontosPC += 1
+                    app2_pontos['text'] = pontosPC
+
+                lblJogadaPC = Label(frameBaixo, text=pc, height=2, width=12, anchor='center', font=('Ivy 13 bold'), bg=co9, fg=co1)
+                lblJogadaPC.place(x=388, y=0)
+                print(player1)
+                print(pc)
+
+        rodadas = rodadas + 1
+
+
+        if rodadas == 6:
+            
+            print('Fim do jogo!')
+            if pontosPlayer1 > pontosPC: fimDoJogo(1)
+            elif pontosPlayer1 < pontosPC: fimDoJogo(2)
+            else: fimDoJogo(0)    
 
 
 # Função iniciar o jogo
@@ -131,8 +170,21 @@ def iniciarJogo():
 
 
 # Função Terminar o jogo
-def fimDoJogo():
-    pass
+def fimDoJogo(a):
+    
+    global resultado
+    global cor
+
+    lblFimDoJogo = Label(frameBaixo, text='FIM DO JOGO!', height=1, anchor='center', font=('Ivy 12 bold'), bg=co0, fg=co1)
+    lblFimDoJogo.place(x=210,y=35)
+
+    if a == 1: resultado = 'Você Venceu!'; cor = co8
+    elif a == 2: resultado = 'PC Venceu!'; cor = co7
+    else: resultado = 'Empate'; cor = co3
+
+    lblResultado = Label(frameBaixo, text=resultado, height=1, width=10, anchor='center', font=('Ivy 20 bold'), bg=co0, fg=cor)
+    lblResultado.place(x=180,y=60)
+    
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

@@ -1,0 +1,27 @@
+        # for a in opcoes:
+            
+        #     if player1 == a:
+                
+        #         if pc == 'Tesoura':
+        #             print('Você Ganhou')
+        #             app1_linha_le['bg'] = co8 #led "player 1" fica verde
+        #             app2_linha_ld['bg'] = co0
+        #             app_linha_inf['bg'] = co0
+
+        #             pontosPlayer1 += 1
+        #             app1_pontos['text'] = pontosPlayer1
+
+        #         elif pc == 'Pedra':
+        #             print('Empate')
+        #             app_linha_inf['bg'] = co2 #led inferior fica laranja
+        #             app1_linha_le['bg'] = co0
+        #             app2_linha_ld['bg'] = co0
+
+        #         else:
+        #             print('Você Perdeu')
+        #             app2_linha_ld['bg'] = co8 #led "pc" fica verde
+        #             app1_linha_le['bg'] = co0
+        #             app_linha_inf['bg'] = co0
+
+        #             pontosPC += 1
+        #             app2_pontos['text'] = pontosPC
