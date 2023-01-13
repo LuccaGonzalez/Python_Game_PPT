@@ -75,11 +75,14 @@ app_linha_inf.place(x=0, y=195)
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Variáveis globais
-global player1
-global pc
-global rodadas
-global pontosPlayer1
-global pontosPC
+global player1, pc, rodadas, pontosPlayer1, pontosPC, resultado
+global posBtJogarX, posBtExitX
+global posBtJogarY, posBtExitY
+
+posBtJogarX = 100
+posBtJogarY = 200
+posBtExitX = 180
+posBtExitY = 270
 
 pontosPlayer1 = 0
 pontosPC = 0
@@ -158,21 +161,36 @@ def jogar(i):
 # Função iniciar o jogo
 def iniciarJogo():
 
-    global iconPedra, iconPapel, iconTesoura, btIconPedra, btIconPapel, btIconTesoura
+    global iconPedra, iconPapel, iconTesoura, btIconPedra, btIconPapel, btIconTesoura, pontosPlayer1, pontosPC, rodadas
 
+    # reset de variáveis
+    pontosPlayer1 = 0
+    pontosPC = 0
+    rodadas = 0
+
+    # resetando o placar
+    app1_pontos['text'] = 0
+    app2_pontos['text'] = 0
+
+    # escondendo os widgets, "esquecendo" a posição deles 
+    btStartGame.place_forget()
+    btExitGame.place_forget()
+    lblFimDoJogo.place_forget()
+    lblResultado.place_forget()
+    lblPlayAgain.place_forget()
+
+    # configurando os botões Pedra, Papel e Tesoura 
     iconPedra = Image.open('icons/Pedra.png')
     iconPedra = iconPedra.resize((85, 85)) #Image.ANTIALIAS
     iconPedra = ImageTk.PhotoImage(iconPedra)
     btIconPedra = Button(frameBaixo, command=lambda: jogar('Pedra'), width=85, image=iconPedra, compound=CENTER, bg=co0, fg=co0, font=('Ivy 10 bold'), anchor=CENTER, relief=FLAT)
     btIconPedra.place(x=80,y=150)
 
-
     iconPapel = Image.open('icons/Papel.png')
     iconPapel = iconPapel.resize((85, 85)) #Image.ANTIALIAS
     iconPapel = ImageTk.PhotoImage(iconPapel)
     btIconPapel = Button(frameBaixo, command=lambda: jogar('Papel'), width=85, image=iconPapel, compound=CENTER, bg=co0, fg=co0, font=('Ivy 10 bold'), anchor=CENTER, relief=FLAT)
     btIconPapel.place(x=215,y=150)
-
 
     iconTesoura = Image.open('icons/Tesoura.png')
     iconTesoura = iconTesoura.resize((85, 85)) #Image.ANTIALIAS
@@ -182,27 +200,46 @@ def iniciarJogo():
 
 
 # Função Terminar o jogo
+lblFimDoJogo = Label(frameBaixo, text='FIM DO JOGO!', height=1, anchor='center', font=('Ivy 12 bold'), bg=co0, fg=co1)
+lblResultado = Label(frameBaixo, height=1, width=10, anchor='center', font=('Ivy 20 bold'), bg=co0)
+lblPlayAgain = Label(frameBaixo, text='Deseja jogar de novo?', height=1, width=25, anchor='center', font=('Ivy 13 bold'), bg=co0, fg=co1)
+
+btExitGame = Button(frameBaixo, command=exit , width=20, text='Sair do jogo', compound=CENTER, bg=co9, fg=co7, font=('Ivy 10 bold'), anchor=CENTER, relief=RAISED, overrelief=RIDGE)
+
 def fimDoJogo(a):
     
-    global resultado
-    global cor
+    global resultado, cor, rodadas, pontosPlayer1, pontosPC
 
-    lblFimDoJogo = Label(frameBaixo, text='FIM DO JOGO!', height=1, anchor='center', font=('Ivy 12 bold'), bg=co0, fg=co1)
-    lblFimDoJogo.place(x=210,y=35)
+    # ocultando os botões
+    btIconPedra.destroy()
+    btIconPapel.destroy()
+    btIconTesoura.destroy()
 
-    if a == 1: resultado = 'Você Venceu!'; cor = co8
-    elif a == 2: resultado = 'PC Venceu!'; cor = co7
-    else: resultado = 'Empate'; cor = co3
+    # definindo o vencedor
+    if a == 1:      lblResultado['text'] = 'Você Venceu!';  lblResultado['fg'] = co8
+    elif a == 2:    lblResultado['text'] = 'PC Venceu!';    lblResultado['fg'] = co7
+    else:           lblResultado['text'] = 'Empate';        lblResultado['fg'] = co3
 
-    lblResultado = Label(frameBaixo, text=resultado, height=1, width=10, anchor='center', font=('Ivy 20 bold'), bg=co0, fg=cor)
+    # definindo mensagens finais do jogo:
+    # mensagem: "FIM DO JOGO"
+    lblFimDoJogo.place(x=210,y=35) 
+
+    # mensagem: resultado final
     lblResultado.place(x=180,y=60)
-    
+
+    # mensagem: "Deseja jogar de novo?"
+    lblPlayAgain.place(x=141, y=150)
+
+    btExitGame.place(x=posBtExitX, y=posBtExitY)
+
+    btStartGame.place(x=posBtJogarX, y=posBtJogarY)
+
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Configurando o início do jogo
-btStartGame = Button(frameBaixo, command=iniciarJogo, width=40, text='JOGAR', compound=CENTER, bg=fundo, fg=co0, font=('Ivy 10 bold'), anchor=CENTER, relief=RAISED, overrelief=RIDGE)
-btStartGame.place(x=100, y=350)
+btStartGame = Button(frameBaixo, command=iniciarJogo, height=2, width=40, text='JOGAR', compound=CENTER, bg=fundo, fg=co0, font=('Ivy 10 bold'), anchor=CENTER, relief=RAISED, overrelief=RIDGE)
+btStartGame.place(x=posBtJogarX, y=posBtJogarY)
 
 
 # Executa a janela
