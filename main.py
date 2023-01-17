@@ -86,7 +86,11 @@ posBtExitY = 270
 
 pontosPlayer1 = 0
 pontosPC = 0
-rodadas = 1
+rodadas = 0
+pc = ''
+
+# label de escolha do pc
+lblJogadaPC = Label(frameBaixo, height=2, width=12, anchor='center', font=('Ivy 13 bold'), bg=co9, fg=co1)
 
 # Função lógica do jogo
 def jogar(i):
@@ -94,8 +98,9 @@ def jogar(i):
     global pontosPlayer1
     global pontosPC
     global resultRound
+    global pc
 
-    if rodadas <= 5:
+    if rodadas <= 4:
         print(rodadas)
         opcoes = ['Pedra', 'Papel', 'Tesoura']
         pc = random.choice(opcoes)
@@ -143,20 +148,18 @@ def jogar(i):
                 pontosPC += 1
                 app2_pontos['text'] = pontosPC
 
-
-        lblJogadaPC = Label(frameBaixo, text=pc, height=2, width=12, anchor='center', font=('Ivy 13 bold'), bg=co9, fg=co1)
+        lblJogadaPC['text'] = pc
         lblJogadaPC.place(x=388, y=0)
 
         rodadas = rodadas + 1
 
 
-        if rodadas == 6:
+        if rodadas == 5:
             
             print('Fim do jogo!')
             if pontosPlayer1 > pontosPC: fimDoJogo(1)
             elif pontosPlayer1 < pontosPC: fimDoJogo(2)
             else: fimDoJogo(0)    
-
 
 # Função iniciar o jogo
 def iniciarJogo():
@@ -214,6 +217,7 @@ def fimDoJogo(a):
     btIconPedra.destroy()
     btIconPapel.destroy()
     btIconTesoura.destroy()
+    lblJogadaPC.place_forget()
 
     # definindo o vencedor
     if a == 1:      lblResultado['text'] = 'Você Venceu!';  lblResultado['fg'] = co8
